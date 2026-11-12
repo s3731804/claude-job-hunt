@@ -2,7 +2,7 @@
 
 This workspace finds job listings, ranks them, and builds a tailored application for each role: resume, cover letter and paste-ready form answers. It's driven by short keywords (see Keywords).
 
-Everything about the user (who they are, what's true about their history, what they're targeting) lives in `me/`. The rules here are generic. Before doing anything for the user, read `me/personal-profile.md`. Call the user by the name it gives, and treat its "what's true and what to avoid claiming" notes as hard limits.
+Everything about the user (who they are, what's true about their history, what they're targeting) lives in `me/`. Their own rules on top of this file live in `CLAUDE.local.md` (gitignored). Read it too if it exists; where the two conflict, it wins. The rules here are generic. Before doing anything for the user, read `me/personal-profile.md`. Call the user by the name it gives, and treat its "what's true and what to avoid claiming" notes as hard limits.
 
 ## Folder layout
 - **Shared (in git):** `CLAUDE.md`, `README.md`, `tools/`, `templates/`.
@@ -61,10 +61,11 @@ If `me/personal-profile.md` doesn't exist, or the user says **setup**, run setup
      - Check the headline and summary, career history, skills, right to work, availability, salary expectation and the "let employers find you" visibility setting.
      - Add the suggestions to `me/seek-profile.md` in the same format.
 7. **Write `me/config.json`** in the shape of `templates/config.json`.
-8. **Create `data/`:**
+8. **Create `CLAUDE.local.md`** from `templates/CLAUDE.local.md`. Tell the user it's their private rules file: any change they ask for that's about their own preferences goes there, while improvements to the project are confirmed with them before being pushed. Add anything personal they mentioned during setup (for example how they like to receive feedback).
+9. **Create `data/`:**
    - `seen-jobs.tsv`, holding only its header line
    - `job-queue.md` and `skipped.md`, copied from `templates/`
-9. **Offer the first `search`.** With an empty ledger it covers the full 14 days, so that first run is the expensive one.
+10. **Offer the first `search`.** With an empty ledger it covers the full 14 days, so that first run is the expensive one.
 
 To update the profile later, the user can say **profile**: show the Targets and defaults, ask what's changed, and edit them. If targets change, redo step 5 for the keywords, and offer to redo the LinkedIn and SEEK review (step 6) so those profiles match.
 
@@ -160,6 +161,15 @@ Start every listing summary (from next, build, or a linked listing) with the pos
   - Include the cover letter body as a fenced block (no letterhead or date) whenever there's a cover letter, for forms that want it pasted.
   - Use the profile's "Application defaults" for standard answers (availability, notice, salary, police check and so on).
   - Before the form is known, include the likely fields. Once the user shares the real form, trim Paste-ready to exactly its fields, in its order and with its labels.
+
+## Shared vs personal changes
+When the user asks for a change to how this workspace behaves, decide where it belongs before making it:
+- **Personal:** their own preferences, wording, defaults, or anything about their situation. Put it in `CLAUDE.local.md` or `me/`. Just make the change, since nothing leaves the machine.
+- **Shared:** an improvement anyone using the project would want (a new keyword, a better flow, a tool fix). Shared files (`CLAUDE.md`, `README.md`, `tools/`, `templates/`) are published when pushed, so before committing:
+  - say it looks shared, summarise the change in a line or two, and ask whether to push it to the repo or keep it personal;
+  - commit and push only after they confirm;
+  - if they say keep it personal, put it in `CLAUDE.local.md` instead.
+- **If it's unclear,** ask which they want.
 
 ## Ground rules
 - Never ask for ID documents or passwords in chat. The user uploads those themselves.
