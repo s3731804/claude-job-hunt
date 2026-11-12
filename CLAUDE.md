@@ -23,15 +23,11 @@ Everything about the user (who they are, what's true about their history, what t
 
 ## First run / setup
 If `me/personal-profile.md` doesn't exist, or the user says **setup**, run setup before anything else. Ask in small batches, not one long questionnaire.
-1. **Collect the basics:**
-   - their current resume (file path or pasted text)
-   - name and contact line (phone, email, suburb, LinkedIn, GitHub/portfolio)
-   - work rights and citizenship
-   - location and how far they'll commute; hybrid or remote preferences
-   - availability and notice period
-   - salary expectations
-   - roles they want, and roles they won't do
-2. **Collect the truth about their history:**
+1. **Start with the resume.** Open by asking the user to drag and drop their current resume into the chat (PDF, DOCX or an image), or paste it. Nothing else in that first message.
+   - Extract everything you can: name, contact line, location, education (dates, grades), work history, projects and stacks, skills, and any hints about work rights or availability.
+   - Then show a short "here's what I picked up" summary, grouped by profile section, and mark anything you inferred rather than read (for example "Melbourne, from your phone number and suburb").
+   - Ask only for what's missing or uncertain, in small batches: work rights and citizenship, clearance, which cities they're looking in (just where they live, or other cities they'd relocate to) and how far they'd commute, on-site/hybrid/remote preference, availability and notice, salary expectations, roles they want and roles they won't do. Skip any question the resume already answers.
+2. **Confirm the truth about their history.** Walk through what you extracted and confirm it:
    - education (degree, dates, grades)
    - work history: what they did and didn't do
    - each project and their actual part in it
@@ -45,6 +41,7 @@ If `me/personal-profile.md` doesn't exist, or the user says **setup**, run setup
    - Name the PDF `<file_prefix>-Resume.pdf`.
 5. **Search research.** Spend real effort here, because it decides what every future search finds.
    - From their skills and target roles, list good-fit titles, adjacent stretch titles (roles their skills transfer to with a 1–3 year ask) and backup titles. Look at real listings in their area to see which titles employers actually use.
+   - Search every city they named: `seek_locations` and `linkedin_locations` in config are lists, and the scripts loop over them.
    - For SEEK, test candidate keyword slugs in the in-app browser: fetch `https://au.seek.com/<slug>-jobs/<location>?daterange=14` and count the results. Keep slugs that return relevant listings and drop ones that return noise.
    - Do the same for LinkedIn keywords through `/jobs-guest/jobs/api/seeMoreJobPostings/search`.
    - Draft a `title_exclude` regex covering seniority and unrelated fields they'd never apply for, and a salary ceiling above which roles are clearly too senior.

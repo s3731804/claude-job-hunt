@@ -1,5 +1,5 @@
 // Run in the in-app browser on a www.linkedin.com page (the public job feed needs no login).
-// Prepend the output of `python3 tools/ledger.py prefix linkedin` (DAYS, EXPECT, LOCATION, TERMS, ENTRY_TERMS, BAD from me/config.json).
+// Prepend the output of `python3 tools/ledger.py prefix linkedin` (DAYS, EXPECT, LOCATIONS, TERMS, ENTRY_TERMS, BAD from me/config.json).
 // The seen list lives in this site's localStorage ("jobLedger:v1", {id: "YYYY-MM-DD"}), so it never passes through messages.
 // If the browser's count doesn't match the ledger, this returns "RESEED ..." and does nothing else; reseed with
 //   localStorage.setItem('jobLedger:v1', '<output of ledger.py seen linkedin>')
@@ -18,10 +18,10 @@ if (Object.keys(seen).length !== EXPECT) {
 const parser = new DOMParser();
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const found = {};
-for (const kw of TERMS) {
+for (const loc of LOCATIONS) for (const kw of TERMS) {
   for (const start of [0, 25]) {
     try {
-      const url = `/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${encodeURIComponent(kw)}&location=${encodeURIComponent(LOCATION)}&f_TPR=r${DAYS * 86400}${ENTRY_TERMS.includes(kw) ? '&f_E=1%2C2' : ''}&start=${start}`;
+      const url = `/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${encodeURIComponent(kw)}&location=${encodeURIComponent(loc)}&f_TPR=r${DAYS * 86400}${ENTRY_TERMS.includes(kw) ? '&f_E=1%2C2' : ''}&start=${start}`;
       const html = await (await fetch(url)).text();
       parser.parseFromString(html, 'text/html').querySelectorAll('li').forEach(li => {
         const urn = li.querySelector('[data-entity-urn]')?.getAttribute('data-entity-urn') || '';

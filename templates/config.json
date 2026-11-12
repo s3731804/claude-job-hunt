@@ -18,8 +18,12 @@
     }
   ],
   "search": {
-    "seek_location": "in-Melbourne-VIC-3000",
-    "linkedin_location": "Melbourne, Victoria, Australia",
+    "seek_locations": [
+      "in-Melbourne-VIC-3000"
+    ],
+    "linkedin_locations": [
+      "Melbourne, Victoria, Australia"
+    ],
     "seek_slugs": [
       "graduate-software-engineer",
       "junior-developer"

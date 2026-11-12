@@ -1,5 +1,5 @@
 // Run in the in-app browser on an au.seek.com page.
-// Prepend the output of `python3 tools/ledger.py prefix seek` (DAYS, EXPECT, LOCATION, TERMS, BAD, MAX_PAY_K from me/config.json).
+// Prepend the output of `python3 tools/ledger.py prefix seek` (DAYS, EXPECT, LOCATIONS, TERMS, BAD, MAX_PAY_K from me/config.json).
 // The seen list lives in this site's localStorage ("jobLedger:v1", {id: "YYYY-MM-DD"}), so it never passes through messages.
 // If the browser's count doesn't match the ledger, this returns "RESEED ..." and does nothing else; reseed with
 //   localStorage.setItem('jobLedger:v1', '<output of ledger.py seen seek>')
@@ -18,9 +18,9 @@ if (Object.keys(seen).length !== EXPECT) {
 const highPay = s => { const m = s.replace(/,/g, '').match(/\$?(\d{2,3})(?:k|\d{3})/i); return m && +m[1] >= MAX_PAY_K; };
 const parser = new DOMParser();
 const found = {};
-for (const slug of TERMS) {
+for (const loc of LOCATIONS) for (const slug of TERMS) {
   for (const page of [1, 2]) {
-    const html = await (await fetch(`/${slug}-jobs/${LOCATION}?daterange=${DAYS}${page > 1 ? '&page=' + page : ''}`)).text();
+    const html = await (await fetch(`/${slug}-jobs/${loc}?daterange=${DAYS}${page > 1 ? '&page=' + page : ''}`)).text();
     parser.parseFromString(html, 'text/html').querySelectorAll('article').forEach(card => {
       const id = card.getAttribute('data-job-id') || (card.querySelector('a[href*="/job/"]')?.getAttribute('href').match(/job\/(\d+)/) || [])[1];
       if (!id || found[id] || seen[id]) return;

@@ -13,7 +13,7 @@ It runs on short keywords, so a session mostly looks like `search`, `next`, `nex
 ## Getting started
 1. Clone this repo and open the folder in Claude Code.
 2. Say **setup**. Claude will:
-   - **interview you** in short batches: your resume, contact details, work rights, location, availability, salary and the roles you want;
+   - **ask you to drop your resume into the chat,** pull out everything it can, and then only ask about what's missing (work rights, location, availability, salary and the roles you want);
    - **record your history,** including what you did *not* do, so applications never overclaim;
    - **build your master resume** from `templates/resume.html` and check it renders to one clean page;
    - **research search terms:** it tests SEEK and LinkedIn keywords against real listings near you, works out good-fit, stretch and backup roles from your skills, and confirms them with you;

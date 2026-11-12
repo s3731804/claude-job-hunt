@@ -9,7 +9,7 @@
   ledger.py counts                totals by status
   ledger.py stamp "<summary>"     record that a search just ran, with a one-line result summary
   ledger.py since                 hours since the last search, and its summary
-  ledger.py prefix <site>         the line to put before seek-search.js / linkedin-search.js (days, expected count, search terms from me/config.json)
+  ledger.py prefix <site>         the line to put before seek-search.js / linkedin-search.js (days, expected count, locations and search terms from me/config.json)
 """
 import json
 import sys
@@ -88,8 +88,8 @@ def main(argv):
         last = max(date.fromisoformat(r['date']) for r in rows())
         days = min(31, max(1, (date.today() - last).days + 1))
         terms = s['seek_slugs'] if site == 'seek' else s['linkedin_keywords']
-        loc = s['seek_location'] if site == 'seek' else s['linkedin_location']
-        print(f"var DAYS = {days}, EXPECT = {len(recent(site))}, LOCATION = {json.dumps(loc)}, "
+        locs = s['seek_locations'] if site == 'seek' else s['linkedin_locations']
+        print(f"var DAYS = {days}, EXPECT = {len(recent(site))}, LOCATIONS = {json.dumps(locs)}, "
               f"TERMS = {json.dumps(terms)}, ENTRY_TERMS = {json.dumps(s.get('linkedin_entry_filter_keywords', []))}, "
               f"BAD = new RegExp({json.dumps(s['title_exclude'])}, 'i'), MAX_PAY_K = {s['max_salary_k']};")
     else:
