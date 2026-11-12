@@ -171,6 +171,12 @@ When the user asks for a change to how this workspace behaves, decide where it b
   - if they say keep it personal, put it in `CLAUDE.local.md` instead.
 - **If it's unclear,** ask which they want.
 
+## Usage guard
+- Before any expensive keyword (`next` when it will build, `build`, `search`), check plan usage with `get_usage`.
+- If the 5-hour window is at **85% or more**, warn first and wait for a go-ahead. Say the percentage, when it resets, and roughly how much a build or search costs.
+- Do the same if the weekly window is at 90% or more.
+- Mention it once when this session's context passes ~60%: a fresh session costs much less per turn, and `where` picks up exactly where we left off.
+
 ## Ground rules
 - Never ask for ID documents or passwords in chat. The user uploads those themselves.
 - Draft outgoing emails and messages for the user to send. Never send them.
