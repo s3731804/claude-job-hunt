@@ -38,6 +38,41 @@ Each keyword only triggers when it's your whole message.
 
 You can also paste any job link. Claude checks whether it's already handled, judges the fit, and builds the application, or tells you why it isn't worth it.
 
+## Design notes
+This project is mostly an exercise in using an AI agent well: giving it the right context, keeping its costs down, and making sure its output can be trusted.
+
+### Model delegation
+```mermaid
+flowchart LR
+    U([you: search]) --> M[Main model]
+    M -->|one-line brief| H[Haiku subagent<br/>runs in background]
+    H -->|browser scripts| S[(SEEK / LinkedIn)]
+    H -->|ad text, tier per listing,<br/>quoted reason| M
+    M -->|reviews tier calls,<br/>fixes duplicates| Q[(job queue + ledger)]
+    Q -->|next| B[Main model builds the<br/>tailored application]
+```
+- **The bulky, mechanical part goes to a cheaper model.** Running the searches, reading every ad and sorting listings into tiers is handed to a Haiku subagent in the background. It quotes the requirement behind every call ("3+ years", "requires NV1").
+- **Judgment stays with the main model.** It reviews the subagent's calls before anything reaches the queue. In testing, Haiku was reliable on clear rule-outs but over-generous with stretch roles, so that review step is built in rather than optional.
+- **Context isolation matters more than the per-token price.** The ad text stays in the subagent's context. The main conversation only gets a ~1.5k-token summary, so later turns don't keep re-reading tens of thousands of tokens of job ads.
+- **Tailoring stays with the main model too.** Resumes and cover letters depend on knowing what's true about you, which a cold-started subagent doesn't have.
+
+### Keeping runs cheap
+- **A ledger of every listing ever seen** (`ledger.py`) means nothing is screened twice. Searches only cover the days since the last run.
+- **The seen list lives in browser storage** on each site, so hundreds of IDs never pass through the model. The script checks its count against the ledger and asks for a reseed if they drift apart.
+- **A title and salary filter runs in the browser** before any ad is opened. In one test it removed 24 of 29 new listings for free.
+- **One-line answers from `ledger.py`** (`days`, `count`, `prefix`, `since`), so nothing has to read whole files.
+- **A 24-hour guard** asks before running a search that would find almost nothing.
+- **Measured:** the first full sweep screened ~300 listings into a 23-item shortlist. A delegated top-up run went from 91k to 76k subagent tokens and from 4 to 2 minutes once the browser-stored seen list was added. The 76k still included a one-off reseed.
+
+### Trust
+- **`me/personal-profile.md` holds what's true *and* what not to claim** (shared work, unconfirmed details), and every application is checked against it.
+- **Every PDF is render-checked:** one page, no orphan words, and a clean preview image.
+- **Applications are never edited after they're built,** so each folder stays a record of what was sent.
+
+### Resumable by design
+- **The queue keeps `Mode:` and `Current:` lines,** and every keyword reads state from files. Any new session can pick up exactly where the last one stopped (`where`, `status`).
+- **Application notes put every form answer in its own code block,** so it's one copy click per field.
+
 ## How it fits together
 ```
 CLAUDE.md          the rules Claude follows (generic, so no personal data)
