@@ -1,0 +1,35 @@
+{
+  "name": "Your Name",
+  "file_prefix": "Your-Name",
+  "contact": [
+    "0400 000 000",
+    {
+      "text": "you@example.com",
+      "href": "mailto:you@example.com"
+    },
+    "Suburb, STATE",
+    {
+      "text": "linkedin.com/in/you",
+      "href": "https://www.linkedin.com/in/you/"
+    },
+    {
+      "text": "github.com/you",
+      "href": "https://github.com/you"
+    }
+  ],
+  "search": {
+    "seek_location": "in-Melbourne-VIC-3000",
+    "linkedin_location": "Melbourne, Victoria, Australia",
+    "seek_slugs": [
+      "graduate-software-engineer",
+      "junior-developer"
+    ],
+    "linkedin_keywords": [
+      "graduate software engineer",
+      "junior developer"
+    ],
+    "linkedin_entry_filter_keywords": [],
+    "title_exclude": "senior|\\blead\\b|principal|staff|manager|head of|architect|\\bsr\\b|director|intern\\b|internship|teacher|coach|lecturer|phd|postdoc|research fellow|construction|property|valuation|electrical|mechanical|civil|mechatronic|nurse|therapist|pathologist|speech|account(ant|s)|sales|recruit|graphic|designer|safety|law graduate",
+    "max_salary_k": 115
+  }
+}

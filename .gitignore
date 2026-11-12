@@ -1,0 +1,7 @@
+# Personal: profile, master resume, application packs and search data
+me/
+applications/
+data/
+
+__pycache__/
+*.pyc
