@@ -30,7 +30,7 @@ Each keyword only triggers when it's your whole message.
 | `next` | Moves on from the current listing (assumed applied, or passed) to the next one. Good fits are checked and built automatically. Stretches and backups get a summary first. |
 | `build` | Builds the stretch or backup listing you're looking at. |
 | `status` | Where you are in the queue, and what's left in each tier. |
-| `back` | After a tangent: where you are, what's pending on the current listing, and what `next` will do. |
+| `where` | Restates where you are, what's pending on the current listing, and what `next` will do. |
 | `refresh` | Re-checks the current tier for closed or changed ads. |
 | `profile` | Reviews and updates your profile and search terms. |
 | `setup` | Runs onboarding (again). |
