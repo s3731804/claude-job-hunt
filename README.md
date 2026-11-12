@@ -1,4 +1,4 @@
-# Job application workspace for Claude Code
+# claude-job-hunt
 
 A small system that turns Claude Code into a job-search assistant. It finds new listings on SEEK and LinkedIn, ranks them against your goals, and builds a tailored application for each one: a one-page resume, a cover letter, and form answers ready to copy. Then it works through them with you one at a time.
 
