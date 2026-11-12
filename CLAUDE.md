@@ -23,7 +23,11 @@ Everything about the user (who they are, what's true about their history, what t
 
 ## First run / setup
 If `me/personal-profile.md` doesn't exist, or the user says **setup**, run setup before anything else. Ask in small batches, not one long questionnaire.
-1. **Start with the resume.** Open by asking the user to drag and drop their current resume into the chat (PDF, DOCX or an image), or paste it. Nothing else in that first message.
+1. **Start with the resume.** First create `me/` if it doesn't exist. Then open by asking for their current resume (PDF, DOCX or an image), and nothing else in that first message. Offer two ways:
+   - drag and drop it into the chat (desktop app), or paste the text;
+   - save it into `me/` (e.g. `me/resume-original.pdf`) and say "done". This is easier from the terminal CLI, and it keeps the original with the rest of their personal files.
+
+   Either way, keep a copy of the original in `me/`.
    - Extract everything you can: name, contact line, location, education (dates, grades), work history, projects and stacks, skills, and any hints about work rights or availability.
    - Then show a short "here's what I picked up" summary, grouped by profile section, and mark anything you inferred rather than read (for example "Melbourne, from your phone number and suburb").
    - Ask only for what's missing or uncertain, in small batches: work rights and citizenship, clearance, which cities they're looking in (just where they live, or other cities they'd relocate to) and how far they'd commute, on-site/hybrid/remote preference, availability and notice, salary expectations, roles they want and roles they won't do. Skip any question the resume already answers.
