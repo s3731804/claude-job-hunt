@@ -11,6 +11,7 @@ Everything about the user (who they are, what's true about their history, what t
     - `personal-profile.md`: facts, targets, application defaults
     - `config.json`: name, contact line, search terms
     - `resume.html`: the master resume, plus its PDF and any transcript
+    - `resume-bank.md`: every summary, skill row and project bullet variant, for tailoring
   - `applications/<Company> - <Role>/`:
     - `resume-<company>.html` and its PDF
     - the cover letter HTML and PDF, if there is one
@@ -43,6 +44,7 @@ If `me/personal-profile.md` doesn't exist, or the user says **setup**, run setup
    - Copy `templates/resume.html` to `me/resume.html` and fill it from their resume and profile.
    - Render it and run the render check.
    - Name the PDF `<file_prefix>-Resume.pdf`.
+4b. **Start the resume bank:** copy `templates/resume-bank.md` to `me/resume-bank.md`. Add the master's summary, skill rows and project entries, plus any extra projects from the interview that didn't fit on one page.
 5. **Search research.** Spend real effort here, because it decides what every future search finds.
    - From their skills and target roles, list good-fit titles, adjacent stretch titles (roles their skills transfer to with a 1–3 year ask) and backup titles. Look at real listings in their area to see which titles employers actually use.
    - Search every city they named: `seek_locations` and `linkedin_locations` in config are lists, and the scripts loop over them.
@@ -92,7 +94,8 @@ Tell the user the result of the check, or what was fixed. Fix orphans by rewordi
 ## Building an application
 - **Folder:** `applications/<Company> - <Role>/`.
 - **Resume:**
-  - Copy `me/resume.html` to `resume-<company>.html`, then tailor it with small, exact string replacements: summary, skill-row order and wording, project order. Use a scratch Python script with an assert that each replacement matches exactly once.
+  - Copy `me/resume.html` to `resume-<company>.html`, then tailor it with small, exact string replacements: summary, skill-row order and wording, project order.
+  - Pick the summary, skill rows, projects and bullets from `me/resume-bank.md`, using its "Picking projects by angle" table. Swap whole project entries in or out as the angle needs. Afterwards, add any new variant you wrote back into the bank. Use a scratch Python script with an assert that each replacement matches exactly once.
   - Only use facts from the profile, and keep them true. Don't add claims the profile flags.
   - Render to `<file_prefix>-Resume-<Company>.pdf`.
 - **Cover letter:**
