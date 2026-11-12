@@ -18,7 +18,7 @@ It runs on short keywords, so a session mostly looks like `search`, `next`, `nex
    - **build your master resume** from `templates/resume.html` and check it renders to one clean page;
    - **research search terms:** it tests SEEK and LinkedIn keywords against real listings near you, works out good-fit, stretch and backup roles from your skills, and confirms them with you;
    - **offer to review your LinkedIn and SEEK profiles** and write paste-ready improvements (headline, About, skills, Open to Work settings);
-   - **create your private folders** (`me/`, `applications/`, `data/`). These are gitignored, so your details never end up in the repo.
+   - **create your private folders** (`me/`, `applications/`, `data/`) and a private `CLAUDE.local.md` for your own rules. These are gitignored, so your details never end up in the repo. Ask for a change and Claude will either keep it personal, or check with you before pushing it as an improvement for everyone.
 3. Say **search** for your first sweep, then **next** to start working through the results.
 
 ## Keywords
