@@ -137,6 +137,7 @@ When the user's whole message is one of these words, it means the following:
   - **Pause:** if the ad has changed, closed, or turns out to be a poor fit, say so and wait.
 - **build**: after a Stretch or Backup summary, build that application in full, then mark Decision "Built".
 - **status**: show the Mode and Current listing, then a line per tier: how many are undecided, what's next in it, and the oldest undecided Added date. Also show totals for Built, Passed, Skipped and Closed, plus the last search time (`ledger.py since`). Read-only, so nothing is fetched.
+- **back**: get back on track after a tangent. In two or three lines: the Mode and Current listing (posting link first, then folder link), where it stands (built and waiting to be submitted, or waiting on build/next, and any open question), and exactly what **next** will do. Read-only.
 - **refresh**: re-check every listing in the current tier that isn't decided yet. Confirm each is still live: SEEK says "no longer advertised" when it's gone, and LinkedIn says "No longer accepting applications". Mark closed ones "Closed", note any changes, and say which listing is up next.
 - **setup**: run first-run setup (see above).
 - **profile**: review and update `me/personal-profile.md` and, if targets change, the search terms in `me/config.json`.
