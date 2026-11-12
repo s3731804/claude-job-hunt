@@ -46,13 +46,21 @@ If `me/personal-profile.md` doesn't exist, or the user says **setup**, run setup
    - Do the same for LinkedIn keywords through `/jobs-guest/jobs/api/seeMoreJobPostings/search`.
    - Draft a `title_exclude` regex covering seniority and unrelated fields they'd never apply for, and a salary ceiling above which roles are clearly too senior.
    - Show the user the proposed Targets (good / stretch / backup / avoid) and the keyword lists, and confirm them.
-6. **Write `me/config.json`** in the shape of `templates/config.json`.
-7. **Create `data/`:**
+6. **Offer a LinkedIn and SEEK profile review** (optional; ask, don't assume).
+   - **LinkedIn:** public profiles are mostly behind a login wall, so ask the user to export theirs (Profile → More → Save to PDF) and drop it in, or paste it, or send screenshots.
+     - Review it against their Targets: headline, About, experience and project entries, skills (top 3 pinned), education, custom URL, photo and banner, and Open to Work settings (titles, locations, start date, recruiters-only or public).
+     - Write `me/linkedin-profile.md` with paste-ready replacements, in the same fenced-block format as application.md, plus a short "quick wins" list.
+     - Keep every claim within the profile's "what's true" notes.
+   - **SEEK:** worth a lighter pass. Recruiters search SEEK Profiles, and Quick Apply sends the profile along with the resume.
+     - Check the headline and summary, career history, skills, right to work, availability, salary expectation and the "let employers find you" visibility setting.
+     - Add the suggestions to `me/seek-profile.md` in the same format.
+7. **Write `me/config.json`** in the shape of `templates/config.json`.
+8. **Create `data/`:**
    - `seen-jobs.tsv`, holding only its header line
    - `job-queue.md` and `skipped.md`, copied from `templates/`
-8. **Offer the first `search`.** With an empty ledger it covers the full 14 days, so that first run is the expensive one.
+9. **Offer the first `search`.** With an empty ledger it covers the full 14 days, so that first run is the expensive one.
 
-To update the profile later, the user can say **profile**: show the Targets and defaults, ask what's changed, and edit them. If targets change, redo step 5 for the keywords.
+To update the profile later, the user can say **profile**: show the Targets and defaults, ask what's changed, and edit them. If targets change, redo step 5 for the keywords, and offer to redo the LinkedIn and SEEK review (step 6) so those profiles match.
 
 ## Don't touch submitted applications
 - Never re-edit or regenerate a tailored resume, cover letter or PDF in an application folder after it's been generated, unless the user explicitly asks to revise that specific application.
