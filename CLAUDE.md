@@ -194,7 +194,11 @@ When the user asks for a change to how this workspace behaves (a new rule, a dif
 - Before any expensive keyword (`next` when it will build, `build`, `search`), check plan usage with `get_usage`.
 - If the 5-hour window is at **85% or more**, warn first and wait for a go-ahead. Say the percentage, when it resets, and roughly how much a build or search costs.
 - Do the same if the weekly window is at 90% or more.
-- Mention it once when this session's context passes ~60%: a fresh session costs much less per turn, and `where` picks up exactly where we left off.
+- **Suggest compacting when context gets big.** Every turn re-sends the whole conversation, so a long chat makes every turn cost more. The `get_usage` check above also returns this session's context `tokensUsed`. Once it passes **150k**, and you're at a clean break (`next` is about to move on, and no application is open mid-form):
+  1. Save anything that only exists in the conversation: loose ends to Open items in `CLAUDE.local.md`, facts and corrections to the profile, drafts to the current `application.md`.
+  2. Before starting the keyword's work, suggest it in one line and stop: "Good point to type `/compact`: everything's saved. Then say **next** again." If they'd rather carry on, carry on.
+  3. Suggest it once. If they keep going, don't raise it again until context has grown by another 150k or so.
+- **If `/compact` isn't available,** suggest a fresh chat instead (`where` picks up exactly where things left off), but never while a sweep is running, since its report comes back to this chat.
 
 ## Ground rules
 - Never ask for ID documents or passwords in chat. The user uploads those themselves.
