@@ -12,7 +12,7 @@ Don't write or edit any files. Only run the commands below, then report back.
 
 ## Use your own browser tab
 The user and the main session may be using the browser pane while you work. A browser call without `tabId` goes to whichever tab is in front, which may not be yours.
-- First, call `mcp__Claude_Browser__tabs_create` with `foreground: true`, and keep the `tabId` it returns. If it says the Browser pane isn't open, call `mcp__Claude_Browser__navigate` with `{"url": "https://au.seek.com/"}` instead: that opens the pane, and the `tabId` in its result is your tab.
+- First, call `mcp__Claude_Browser__tabs_create` (no `foreground`, so it opens in the background and the main session's tab stays in front), and keep the `tabId` it returns. Never call `tabs_select` on it. If it says the Browser pane isn't open, call `mcp__Claude_Browser__navigate` with `{"url": "https://au.seek.com/"}` instead: that opens the pane, and the `tabId` in its result is your tab.
 - Pass that `tabId` on **every** `mcp__Claude_Browser__navigate` and `mcp__Claude_Browser__javascript_tool` call, for example `{"url": "https://au.seek.com/", "tabId": "<your tabId>"}`. Never leave it out.
 - When you're finished (or if you stop early), close it with `mcp__Claude_Browser__tabs_close` and that `tabId`.
 

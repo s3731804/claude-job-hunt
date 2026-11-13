@@ -113,14 +113,17 @@ Tell the user the result of the check, or what was fixed. Fix orphans by rewordi
 - Pause and confirm only if it's unlikely to succeed: a big skills or seniority gap, eligibility problems, not a real opening, and so on. Say why, and ask whether they want to bother.
 
 ## Running a job search
+- Run `ledger.py start` right before launching the sweep. It marks a sweep as running in `data/`, so any session (including a fresh one) can see it through `ledger.py since`; `stamp` clears it.
 - The sweep goes to a Haiku subagent: the Agent tool with model "haiku", run in the background, with the prompt "Follow <absolute path to this folder>/tools/search-brief.md exactly." The brief has the steps, the tier rules and the report format.
 - Keep working while it runs (`next`, `build`, questions are all fine), but don't launch a second sweep until this one's report has been processed.
-- `data/seen-jobs.tsv` is the ledger of every listing already looked at (job_id, site, first_seen, status). Use `tools/ledger.py` instead of reading it: `days`, `count`, `seen`, `add`, `set`, `counts`, `stamp`, `since`, `prefix`.
+- While it runs, pass your own `tabId` on every browser call (navigate, get_page_text, javascript_tool, read_page and so on). A call without one goes to the front tab, which may be the subagent's. Your tab is one you used before the sweep started (its id is in that call's result). If you didn't have one, or aren't sure, make a new one with `tabs_create` and use its id. Any other tab may be the subagent's: never navigate, select or close it.
+- `data/seen-jobs.tsv` is the ledger of every listing already looked at (job_id, site, first_seen, status). Use `tools/ledger.py` instead of reading it: `days`, `count`, `seen`, `add`, `set`, `counts`, `start`, `stamp`, `since`, `prefix`.
 - The search scripts take their terms from `me/config.json` through `ledger.py prefix <site>`. They keep the seen list in each site's browser localStorage, so the IDs never pass through messages, and they ask for a reseed if the browser and ledger counts don't match.
 - When the report comes back, review the tier calls, because Haiku over-rates stretches. Also check for duplicates of listings already in the queue or ruled out. Then:
-  - pipe its ledger lines into `python3 tools/ledger.py add`, changing any statuses you corrected;
-  - add new A/B/C rows to the bottom of each tier in `data/job-queue.md`, plus any Couldn't-read rows;
+  - pipe its ledger lines into `python3 tools/ledger.py add`, changing any statuses you corrected. It lists any IDs it skipped because they're already in the ledger, for example a listing built from a link while the sweep ran. Leave those out of the queue;
+  - add the remaining new A/B/C rows to the bottom of each tier in `data/job-queue.md`, plus any Couldn't-read rows;
   - log the search under "Searches".
+- If the report lands while you're in the middle of something (an application, a form, a question), process and report it as usual, then end with one line pointing back, e.g. "Back to <Current listing>: say **where** to pick up."
 - As the user decides:
   - **Build:** the application folder, then `ledger.py set <id> application`.
   - **Skip:** add it to `data/skipped.md`, then `ledger.py set <id> skipped`.
@@ -129,9 +132,11 @@ Tell the user the result of the check, or what was fixed. Fix orphans by rewordi
 When the user's whole message is one of these words, it means the following:
 
 - **search**:
-  - If a sweep is already running (launched, report not back yet), don't start another. Say it's still running, how long ago it started, and that the results will be added when it reports. Two sweeps would share the browser seen list and reseed over each other.
-  1. Run `python3 tools/update.py` to pull any project updates. It only fast-forwards and never touches personal files. If it pulled something, mention it in a line. If it says CLAUDE.md changed, re-read CLAUDE.md before going on. If it skipped, mention why only when it's something the user could fix (local edits that clash, local commits).
-  2. Run `python3 tools/ledger.py since`. If the last search was under 24 hours ago, say how long ago and what it found, and only run another once the user confirms.
+  1. Run `python3 tools/ledger.py since`.
+     - **SWEEP RUNNING:** don't start another. Two sweeps would share the browser seen list and reseed over each other. Say how long ago it started. If this session launched it, the results will be added when it reports. If not, its report went to another session, so tell the user to process it there.
+     - **SWEEP LOST:** its report was never processed (the session that launched it ended, or it failed). Say so, and offer to search again. The new search reseeds and picks those listings up.
+     - **Last search under 24 hours ago:** say how long ago and what it found, and only run another once the user confirms.
+  2. Run `python3 tools/update.py` to pull any project updates. It only fast-forwards and never touches personal files. If it pulled something, mention it in a line. If it says CLAUDE.md changed, re-read CLAUDE.md before going on. If it skipped, mention why only when it's something the user could fix (local edits that clash, local commits).
   3. Run the search as in "Running a job search". The window is the days since the last ledger date.
   4. Add the new listings to `data/job-queue.md` without changing Mode or Current, so you carry on where you were rather than jumping back to new good fits.
   5. Run `ledger.py stamp "<one-line result>"`.
@@ -143,8 +148,8 @@ When the user's whole message is one of these words, it means the following:
   - **Stretch / Backup:** give a short fit summary and recommendation, and wait. The user replies **build** to make it, or **next** to pass.
   - **Pause:** if the ad has changed, closed, or turns out to be a poor fit, say so and wait.
 - **build**: after a Stretch or Backup summary, build that application in full, then mark Decision "Built".
-- **status**: show the Mode and Current listing, then a line per tier: how many are undecided, what's next in it, and the oldest undecided Added date. Also show totals for Built, Passed, Skipped and Closed, plus the last search time (`ledger.py since`). Read-only, so nothing is fetched.
-- **where**: restate where we are, e.g. after a tangent. In two or three lines: the Mode and Current listing (posting link first, then folder link), where it stands (built and waiting to be submitted, or waiting on build/next, and any open question), and exactly what **next** will do. Also reopen the current listing's application.md in the Files pane (show_pane, no `line`), if it has one. Read-only otherwise.
+- **status**: show the Mode and Current listing, then a line per tier: how many are undecided, what's next in it, and the oldest undecided Added date. Also show totals for Built, Passed, Skipped and Closed, plus the last search time and any running or lost sweep (`ledger.py since`). Read-only, so nothing is fetched.
+- **where**: restate where we are, e.g. after a tangent. In two or three lines: the Mode and Current listing (posting link first, then folder link), where it stands (built and waiting to be submitted, or waiting on build/next, and any open question), and exactly what **next** will do. If `ledger.py since` shows a sweep running or lost, add a line about it. Also reopen the current listing's application.md in the Files pane (show_pane, no `line`), if it has one. Read-only otherwise.
 - **refresh**: re-check every listing in the current tier that isn't decided yet. Confirm each is still live: SEEK says "no longer advertised" when it's gone, and LinkedIn says "No longer accepting applications". Mark closed ones "Closed", note any changes, and say which listing is up next.
 - **setup**: run first-run setup (see above).
 - **profile**: review and update `me/personal-profile.md` and, if targets change, the search terms in `me/config.json`.
