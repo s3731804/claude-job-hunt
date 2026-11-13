@@ -26,7 +26,7 @@ Each keyword only triggers when it's your whole message.
 
 | Keyword | What it does |
 |---|---|
-| `search` | Finds listings posted since your last search, screens them with a cheaper background model, and adds the good ones to your queue. It asks first if you searched in the last 24 hours. |
+| `search` | Pulls any project updates first, then finds listings posted since your last search, screens them with a cheaper background model, and adds the good ones to your queue. It asks first if you searched in the last 24 hours. |
 | `next` | Moves on from the current listing (assumed applied, or passed) to the next one. Good fits are checked and built automatically. Stretches and backups get a summary first. |
 | `build` | Builds the stretch or backup listing you're looking at. |
 | `status` | Where you are in the queue, and what's left in each tier. |
@@ -83,6 +83,7 @@ tools/
   job-details.js   pulls the requirement lines out of each ad
   search-brief.md  instructions for the background screening agent
   make_letter.py   cover letter builder (reads your name and contact details from me/config.json)
+  update.py        pulls project updates before each search (fast-forward only, never touches your files)
 templates/         blank profile, config, resume, queue and skipped list
 me/                your profile, config and master resume          (gitignored)
 applications/      one folder per role: resume, letter, application.md  (gitignored)

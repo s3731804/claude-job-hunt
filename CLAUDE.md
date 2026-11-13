@@ -128,11 +128,12 @@ Tell the user the result of the check, or what was fixed. Fix orphans by rewordi
 When the user's whole message is one of these words, it means the following:
 
 - **search**:
-  1. Run `python3 tools/ledger.py since`. If the last search was under 24 hours ago, say how long ago and what it found, and only run another once the user confirms.
-  2. Run the search as in "Running a job search". The window is the days since the last ledger date.
-  3. Add the new listings to `data/job-queue.md` without changing Mode or Current, so you carry on where you were rather than jumping back to new good fits.
-  4. Run `ledger.py stamp "<one-line result>"`.
-  5. Report the counts and the top new picks. If a new Worth-applying listing closes within a few days, flag it.
+  1. Run `python3 tools/update.py` to pull any project updates. It only fast-forwards and never touches personal files. If it pulled something, mention it in a line. If it says CLAUDE.md changed, re-read CLAUDE.md before going on. If it skipped, mention why only when it's something the user could fix (local edits that clash, local commits).
+  2. Run `python3 tools/ledger.py since`. If the last search was under 24 hours ago, say how long ago and what it found, and only run another once the user confirms.
+  3. Run the search as in "Running a job search". The window is the days since the last ledger date.
+  4. Add the new listings to `data/job-queue.md` without changing Mode or Current, so you carry on where you were rather than jumping back to new good fits.
+  5. Run `ledger.py stamp "<one-line result>"`.
+  6. Report the counts and the top new picks. If a new Worth-applying listing closes within a few days, flag it.
 - **next**: move to the next listing in `data/job-queue.md`.
   - **Previous listing:** treat it as done. If its application was built, set its application.md status to "assumed submitted (moved on with next, <date>)". If it wasn't built, mark its Decision as "Passed". Update its ledger status either way.
   - **Order:** stay in the current Mode (tier) and take the next undecided row, top to bottom. When the tier is empty, move to the next one (A → B → C → back to A) and update Mode.
