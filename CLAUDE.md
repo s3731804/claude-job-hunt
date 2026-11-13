@@ -165,6 +165,16 @@ Start every listing summary (from next, build, or a linked listing) with the pos
   - Use the profile's "Application defaults" for standard answers (availability, notice, salary, police check and so on).
   - Before the form is known, include the likely fields. Once the user shares the real form, trim Paste-ready to exactly its fields, in its order and with its labels.
 
+## Growing CLAUDE.local.md as you go
+`CLAUDE.local.md` is meant to grow as the user works through listings, not just at setup. That's how the workspace fits itself to them.
+Keep it lean: specific rules, not a log of passing remarks.
+- **When they explicitly ask** for a rule or a change to how things work ("always flag X", "stop doing Y"), add it and say so in a line.
+- **When they're frustrated with something, or have a new idea** about how things could work, suggest a rule: quote the exact one-line rule you'd add, and ask. Add it only if they say yes. Suggest once; if they decline or ignore it, drop it.
+- **When a session ends with loose ends** (an answer they're checking, a listing on hold, a claim to confirm), keep them under an "Open items" heading so the next session picks them up. Clear items once they're done.
+- **Facts and corrections about themselves** ("I helped build that, I didn't lead it") go to `me/personal-profile.md` instead. Put anything they didn't do under "what's true and what to avoid claiming". Built applications stay as they are (see "Don't touch submitted applications").
+- Keep each rule short, and edit an existing rule rather than adding a near-duplicate.
+- Beyond these, don't add anything. A one-off comment, a mood or a single listing's quirk isn't a rule.
+
 ## Changing how the workspace works
 When the user asks for a change to how this workspace behaves (a new rule, a different default, a tweak to a keyword), put it in `CLAUDE.local.md`, or in `me/` if it's about their situation. Don't edit the shared files (`CLAUDE.md`, `README.md`, `tools/`, `templates/`) for it: they come from the project, and leaving them untouched lets the user pull updates without conflicts. If a change really needs a shared file (a broken tool, say), say so and make it only once they agree.
 

@@ -2,7 +2,7 @@
 
 A small system that turns Claude Code into a job-search assistant. It finds new listings on SEEK and LinkedIn, ranks them against your goals, and builds a tailored application for each one: a one-page resume, a cover letter, and form answers ready to copy. Then it works through them with you one at a time.
 
-It runs on short keywords, so a session mostly looks like `search`, `next`, `next`, `status`.
+Short keywords (`search`, `next`, `status`) keep the routine fast. But it works best as a conversation: as you push back on drafts and say what you like and don't, it writes your preferences into a private rules file, so each session fits you better than the last.
 
 ## What you need
 - **[Claude Code](https://claude.com/claude-code) desktop app**, with the built-in browser enabled (Settings → Claude Code → Browser). Searches run in that browser, and LinkedIn is read through its public job feed, so no login is needed.
@@ -20,6 +20,15 @@ It runs on short keywords, so a session mostly looks like `search`, `next`, `nex
    - **offer to review your LinkedIn and SEEK profiles** and write paste-ready improvements (headline, About, skills, Open to Work settings);
    - **create your private folders** (`me/`, `applications/`, `data/`) and a private `CLAUDE.local.md` for your own rules. These are gitignored, so your details never end up in the repo. Changes you ask for go into `CLAUDE.local.md`, so the shared files stay as shipped and `git pull` brings in updates cleanly.
 3. Say **search** for your first sweep, then **next** to start working through the results.
+
+## Make it yours as you go
+`setup` gets you started, but the useful rules come from working through real listings. Say what you think as you go, and Claude turns it into a rule in your `CLAUDE.local.md`. It adds a rule when you ask for one. When you're frustrated with something or have a new idea, it suggests a specific rule and adds it only if you agree, so the file stays short. Some rules that came out of real use:
+- "Warn me before building anything that applies through SuccessFactors. Those forms take forever."
+- "Treat 'ok next' as `next`."
+- "Open application notes in the Files pane, not an external editor."
+- Loose ends, like an answer you're still checking or a listing on hold, are kept under Open items so the next session picks them up.
+
+Corrections count too. "I helped build that, I didn't lead it" goes into your profile, so no later application overclaims it.
 
 ## Keywords
 Each keyword only triggers when it's your whole message.
