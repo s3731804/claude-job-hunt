@@ -31,7 +31,7 @@ If `me/personal-profile.md` doesn't exist, or the user says **setup**, run setup
    Either way, keep a copy of the original in `me/`.
    - Extract everything you can: name, contact line, location, education (dates, grades), work history, projects and stacks, skills, and any hints about work rights or availability.
    - Then show a short "here's what I picked up" summary, grouped by profile section, and mark anything you inferred rather than read (for example "Melbourne, from your phone number and suburb").
-   - Ask only for what's missing or uncertain, in small batches: work rights and citizenship, clearance, which cities they're looking in (just where they live, or other cities they'd relocate to) and how far they'd commute, on-site/hybrid/remote preference, availability and notice, salary expectations, roles they want and roles they won't do. Skip any question the resume already answers.
+   - Ask only for what's missing or uncertain, in small batches: work rights and citizenship, clearance, which cities they're looking in (just where they live, or other cities they'd relocate to) and how far they'd commute, on-site/hybrid/remote preference, availability and notice, salary expectations, roles they want, and roles they won't do. For that last one, offer example tracks to react to (support, data, cyber, infrastructure, sales-adjacent, consulting and so on), and note which are "not interested" and which are "not eligible yet". Also ask whether they're open to suggestions outside their targets (the default is yes, and it suits graduates and career changers). Skip any question the resume already answers.
 2. **Confirm the truth about their history.** Walk through what you extracted and confirm it:
    - education (degree, dates, grades)
    - work history: what they did and didn't do
@@ -51,7 +51,7 @@ If `me/personal-profile.md` doesn't exist, or the user says **setup**, run setup
    - For SEEK, test candidate keyword slugs in the in-app browser: fetch `https://au.seek.com/<slug>-jobs/<location>?daterange=14` and count the results. Keep slugs that return relevant listings and drop ones that return noise.
    - Do the same for LinkedIn keywords through `/jobs-guest/jobs/api/seeMoreJobPostings/search`.
    - Draft a `title_exclude` regex covering seniority and unrelated fields they'd never apply for, and a salary ceiling above which roles are clearly too senior.
-   - Show the user the proposed Targets (good / stretch / backup / avoid) and the keyword lists, and confirm them.
+   - Show the user the proposed Targets (good / stretch / backup / open to / avoid) and the keyword lists, and confirm them.
 6. **Offer a LinkedIn and SEEK profile review** (optional; ask, don't assume).
    - **LinkedIn:** public profiles are mostly behind a login wall, so ask the user to export theirs (Profile → More → Save to PDF) and drop it in, or paste it, or send screenshots.
      - Review it against their Targets: headline, About, experience and project entries, skills (top 3 pinned), education, custom URL, photo and banner, and Open to Work settings (titles, locations, start date, recruiters-only or public).
@@ -119,7 +119,12 @@ Tell the user the result of the check, or what was fixed. Fix orphans by rewordi
 - While it runs, pass your own `tabId` on every browser call (navigate, get_page_text, javascript_tool, read_page and so on). A call without one goes to the front tab, which may be the subagent's. Your tab is one you used before the sweep started (its id is in that call's result). If you didn't have one, or aren't sure, make a new one with `tabs_create` and use its id. Any other tab may be the subagent's: never navigate, select or close it.
 - `data/seen-jobs.tsv` is the ledger of every listing already looked at (job_id, site, first_seen, status). Use `tools/ledger.py` instead of reading it: `days`, `count`, `seen`, `add`, `set`, `counts`, `start`, `stamp`, `since`, `prefix`.
 - The search scripts take their terms from `me/config.json` through `ledger.py prefix <site>`. They keep the seen list in each site's browser localStorage, so the IDs never pass through messages, and they ask for a reseed if the browser and ledger counts don't match.
-- When the report comes back, review the tier calls, because Haiku over-rates stretches. Also check for duplicates of listings already in the queue or ruled out. Then:
+- When the report comes back, review the tier calls, because Haiku over-rates stretches. Also check for duplicates of listings already in the queue or ruled out.
+  - **Off-target C rows** (reason starts "off-target:"): keep one only if it's genuinely entry-level and has at least 2 concrete evidence points from the profile (a unit or grade, a project, a cert). Mark it ★ with a one-line reason in Notes, e.g. "★ Strength match: networking HDs + Cert IV routing". Otherwise move it to Ruled out (`screened-out`).
+  - **Two steps, one track per search at most.** If a ★ row is in a track the profile doesn't cover yet (e.g. cyber analyst roles), surface the best one in the search report:
+    1. **"Have you considered this?"** Name the listing, say why they're a strong fit (the evidence), and ask whether it interests them. If not, add the track to "Avoid, not interested" and drop the row, so it's never raised again.
+    2. **If they're interested,** add the track to "Open to". That only means listings like it that the existing search catches are kept, not filtered out. Then offer, in one line, to also search for it ("Want me to add cyber analyst keywords to future searches too?"). Interest in one listing isn't a yes to that, so add keywords (setup step 5, for that track only) only if they ask.
+  Then:
   - pipe its ledger lines into `python3 tools/ledger.py add`, changing any statuses you corrected. It lists any IDs it skipped because they're already in the ledger, for example a listing built from a link while the sweep ran. Leave those out of the queue;
   - add the remaining new A/B/C rows to the bottom of each tier in `data/job-queue.md`, plus any Couldn't-read rows;
   - log the search under "Searches".
@@ -140,7 +145,7 @@ When the user's whole message is one of these words, it means the following:
   3. Run the search as in "Running a job search". The window is the days since the last ledger date.
   4. Add the new listings to `data/job-queue.md` without changing Mode or Current, so you carry on where you were rather than jumping back to new good fits.
   5. Run `ledger.py stamp "<one-line result>"`.
-  6. Report the counts and the top new picks. If a new Worth-applying listing closes within a few days, flag it.
+  6. Report the counts and the top new picks, including any ★ strength matches. If a new Worth-applying listing closes within a few days, flag it.
 - **next**: move to the next listing in `data/job-queue.md`.
   - **Previous listing:** treat it as done. If its application was built, set its application.md status to "assumed submitted (moved on with next, <date>)". If it wasn't built, mark its Decision as "Passed". Update its ledger status either way.
   - **Order:** stay in the current Mode (tier) and take the next undecided row, top to bottom. When the tier is empty, move to the next one (A → B → C → back to A) and update Mode.

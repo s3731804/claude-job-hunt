@@ -30,6 +30,8 @@ Short keywords (`search`, `next`, `status`) keep the routine fast. But it works 
 
 Corrections count too. "I helped build that, I didn't lead it" goes into your profile, so no later application overclaims it.
 
+It also looks past your target roles. A role outside them that your record backs up (good marks in the relevant units, a matching project or cert) is kept with a ★ instead of being discarded. When one is in a kind of role you haven't mentioned, it shows you the listing and asks whether you'd considered it. Say you're interested, and roles like it stop being filtered out. It also offers to search for them, but searches only widen if you ask. If you already know your track, tell it during `setup` and it sticks to your targets.
+
 ## Keywords
 Each keyword only triggers when it's your whole message.
 

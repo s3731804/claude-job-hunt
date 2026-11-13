@@ -29,7 +29,10 @@ This is the user's source of truth. Claude reads it before building any applicat
 - Good fits:
 - Stretches (worth trying with a 1–3 year ask):
 - Backups:
-- Avoid:
+- Open to (not targeted, but worth a look):
+- Suggestions outside Targets: yes (set to no to only see roles listed here)
+- Avoid, not interested:
+- Avoid, not eligible yet (clearance, years; may change):
 
 ## Application defaults
 - Availability wording:

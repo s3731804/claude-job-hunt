@@ -15,7 +15,7 @@ One rolling queue. "search" adds new listings to the bottom of each tier and lea
 | # | Company — Role | Link | Why | Watch out | Added | Decision |
 |---|---|---|---|---|---|---|
 
-## C. Support backups
+## C. Worth a look
 | # | Company — Role | Link | Notes | Added | Decision |
 |---|---|---|---|---|---|
 
