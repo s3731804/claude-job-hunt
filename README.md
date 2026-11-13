@@ -18,7 +18,7 @@ It runs on short keywords, so a session mostly looks like `search`, `next`, `nex
    - **build your master resume** from `templates/resume.html` and check it renders to one clean page;
    - **research search terms:** it tests SEEK and LinkedIn keywords against real listings near you, works out good-fit, stretch and backup roles from your skills, and confirms them with you;
    - **offer to review your LinkedIn and SEEK profiles** and write paste-ready improvements (headline, About, skills, Open to Work settings);
-   - **create your private folders** (`me/`, `applications/`, `data/`) and a private `CLAUDE.local.md` for your own rules. These are gitignored, so your details never end up in the repo. Ask for a change and Claude will either keep it personal, or check with you before pushing it as an improvement for everyone.
+   - **create your private folders** (`me/`, `applications/`, `data/`) and a private `CLAUDE.local.md` for your own rules. These are gitignored, so your details never end up in the repo. Changes you ask for go into `CLAUDE.local.md`, so the shared files stay as shipped and `git pull` brings in updates cleanly.
 3. Say **search** for your first sweep, then **next** to start working through the results.
 
 ## Keywords
@@ -94,3 +94,6 @@ data/              ledger, queue, skipped list, last search time    (gitignored)
 - **Submitted applications are never edited afterwards.** Improvements go into the master resume instead.
 - **Claims are checked against your profile,** and anything unconfirmed is flagged rather than included.
 - **It never sends messages for you, and never asks for ID documents in chat.**
+
+## Contributing
+Found a bug or have an idea that would help everyone? Open an issue or a pull request. Keep personal details out of shared files: they belong in `me/` and `CLAUDE.local.md`.

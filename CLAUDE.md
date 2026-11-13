@@ -61,7 +61,7 @@ If `me/personal-profile.md` doesn't exist, or the user says **setup**, run setup
      - Check the headline and summary, career history, skills, right to work, availability, salary expectation and the "let employers find you" visibility setting.
      - Add the suggestions to `me/seek-profile.md` in the same format.
 7. **Write `me/config.json`** in the shape of `templates/config.json`.
-8. **Create `CLAUDE.local.md`** from `templates/CLAUDE.local.md`. Tell the user it's their private rules file: any change they ask for that's about their own preferences goes there, while improvements to the project are confirmed with them before being pushed. Add anything personal they mentioned during setup (for example how they like to receive feedback).
+8. **Create `CLAUDE.local.md`** from `templates/CLAUDE.local.md`. Tell the user it's their private rules file: any change they ask for to how the workspace works goes there. Add anything personal they mentioned during setup (for example how they like to receive feedback).
 9. **Create `data/`:**
    - `seen-jobs.tsv`, holding only its header line
    - `job-queue.md` and `skipped.md`, copied from `templates/`
@@ -162,14 +162,8 @@ Start every listing summary (from next, build, or a linked listing) with the pos
   - Use the profile's "Application defaults" for standard answers (availability, notice, salary, police check and so on).
   - Before the form is known, include the likely fields. Once the user shares the real form, trim Paste-ready to exactly its fields, in its order and with its labels.
 
-## Shared vs personal changes
-When the user asks for a change to how this workspace behaves, decide where it belongs before making it:
-- **Personal:** their own preferences, wording, defaults, or anything about their situation. Put it in `CLAUDE.local.md` or `me/`. Just make the change, since nothing leaves the machine.
-- **Shared:** an improvement anyone using the project would want (a new keyword, a better flow, a tool fix). Shared files (`CLAUDE.md`, `README.md`, `tools/`, `templates/`) are published when pushed, so before committing:
-  - say it looks shared, summarise the change in a line or two, and ask whether to push it to the repo or keep it personal;
-  - commit and push only after they confirm;
-  - if they say keep it personal, put it in `CLAUDE.local.md` instead.
-- **If it's unclear,** ask which they want.
+## Changing how the workspace works
+When the user asks for a change to how this workspace behaves (a new rule, a different default, a tweak to a keyword), put it in `CLAUDE.local.md`, or in `me/` if it's about their situation. Don't edit the shared files (`CLAUDE.md`, `README.md`, `tools/`, `templates/`) for it: they come from the project, and leaving them untouched lets the user pull updates without conflicts. If a change really needs a shared file (a broken tool, say), say so and make it only once they agree.
 
 ## Usage guard
 - Before any expensive keyword (`next` when it will build, `build`, `search`), check plan usage with `get_usage`.
