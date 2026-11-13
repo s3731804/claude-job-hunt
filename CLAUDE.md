@@ -114,6 +114,7 @@ Tell the user the result of the check, or what was fixed. Fix orphans by rewordi
 
 ## Running a job search
 - The sweep goes to a Haiku subagent: the Agent tool with model "haiku", run in the background, with the prompt "Follow <absolute path to this folder>/tools/search-brief.md exactly." The brief has the steps, the tier rules and the report format.
+- Keep working while it runs (`next`, `build`, questions are all fine), but don't launch a second sweep until this one's report has been processed.
 - `data/seen-jobs.tsv` is the ledger of every listing already looked at (job_id, site, first_seen, status). Use `tools/ledger.py` instead of reading it: `days`, `count`, `seen`, `add`, `set`, `counts`, `stamp`, `since`, `prefix`.
 - The search scripts take their terms from `me/config.json` through `ledger.py prefix <site>`. They keep the seen list in each site's browser localStorage, so the IDs never pass through messages, and they ask for a reseed if the browser and ledger counts don't match.
 - When the report comes back, review the tier calls, because Haiku over-rates stretches. Also check for duplicates of listings already in the queue or ruled out. Then:
@@ -128,6 +129,7 @@ Tell the user the result of the check, or what was fixed. Fix orphans by rewordi
 When the user's whole message is one of these words, it means the following:
 
 - **search**:
+  - If a sweep is already running (launched, report not back yet), don't start another. Say it's still running, how long ago it started, and that the results will be added when it reports. Two sweeps would share the browser seen list and reseed over each other.
   1. Run `python3 tools/update.py` to pull any project updates. It only fast-forwards and never touches personal files. If it pulled something, mention it in a line. If it says CLAUDE.md changed, re-read CLAUDE.md before going on. If it skipped, mention why only when it's something the user could fix (local edits that clash, local commits).
   2. Run `python3 tools/ledger.py since`. If the last search was under 24 hours ago, say how long ago and what it found, and only run another once the user confirms.
   3. Run the search as in "Running a job search". The window is the days since the last ledger date.
