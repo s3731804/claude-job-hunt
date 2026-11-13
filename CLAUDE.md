@@ -162,6 +162,8 @@ When the user's whole message is one of these words, it means the following:
 
 Start every listing summary (from next, build, or a linked listing) with the posting link on its own line, followed by the folder link, so the user can open the ad straight away. When an application is built, also open its application.md in the app's Files pane. Use show_pane with no `line`, because passing a line forces the raw source view instead of the preview. The preview's code blocks have copy buttons.
 
+If `show_pane` fails (for example because the user is in another chat, so this session isn't in a window), the pane stays on the old file. Say so in one line ("Files pane didn't open: say **where** to reopen it"), then try `show_pane` once more at the start of the next turn, since a reply means the user is back. This applies to `where` too.
+
 `data/job-queue.md` keeps `Mode:` and `Current:` lines at the top, so a new session can pick up where the last one left off.
 
 ## application.md format
